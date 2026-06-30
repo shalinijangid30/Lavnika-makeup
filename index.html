@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lavnika — Makeup Artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0808;
+  --ink2:#130a0d;
+  --ink3:#1a0f13;
+  --rose:#c9878a;
+  --rose-light:#e9c4c6;
+  --bone:#ede6e1;
+  --wine:#4a0d1a;
+  --blush:#8c1a2e;
+  --line:rgba(237,230,225,0.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{background:var(--ink);}
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:'Poppins',sans-serif;
+  font-weight:300;
+  overflow-x:clip;
+}
+img,video{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+.wrap{max-width:1280px;margin:0 auto;padding:0 6vw;}
+h1,h2,h3,.display{
+  font-family:'Bodoni Moda',serif;
+  font-weight:500;
+  line-height:1;
+}
+.eyebrow{
+  font-family:'Poppins',sans-serif;
+  font-size:0.7rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  color:var(--rose-light);
+  font-weight:500;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--rose-light);display:inline-block;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+}
+
+/* ===================== NAV ===================== */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:300;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:28px 6vw;
+  transition:padding .4s ease, background .4s ease, box-shadow .4s ease;
+}
+header.scrolled{
+  background:rgba(10,8,8,0.88);
+  backdrop-filter:blur(8px);
+  padding:16px 6vw;
+  box-shadow:0 10px 30px rgba(0,0,0,0.45);
+}
+.logo{
+  font-family:'Bodoni Moda',serif; font-weight:600;
+  font-size:1.5rem; letter-spacing:0.04em;
+}
+.logo span{
+  display:block; font-family:'Poppins',sans-serif; font-weight:500;
+  font-size:0.52rem; letter-spacing:0.32em; color:var(--rose-light);
+  margin-top:3px;
+}
+nav.main-nav ul{display:flex; gap:42px;}
+nav.main-nav a{
+  font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
+  opacity:0.82; position:relative; padding-bottom:6px;
+}
+nav.main-nav a::after{
+  content:""; position:absolute; left:0; bottom:0; height:1px; width:0;
+  background:var(--rose); transition:width .3s ease;
+}
+nav.main-nav a:hover::after{width:100%;}
+nav.main-nav a:hover{opacity:1;}
+.nav-ig{
+  border:1px solid var(--rose); border-radius:30px;
+  padding:9px 20px; font-size:0.75rem; letter-spacing:0.04em;
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+.nav-ig:hover{background:var(--rose); color:var(--ink);}
+.burger{display:none; cursor:pointer; z-index:320;}
+.burger span{display:block; width:26px; height:1.5px; background:var(--bone); margin:6px 0;}
+
+/* ===================== HERO ===================== */
+.hero{
+  position:relative; min-height:100vh; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:150px 6vw 80px; isolation:isolate;
+}
+.hero-word{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  pointer-events:none; z-index:1;
+}
+.hero-word span{
+  position:absolute;
+  font-family:'Bodoni Moda',serif; font-weight:600; font-style:italic;
+  font-size:clamp(5rem,20vw,15rem);
+  white-space:nowrap; letter-spacing:0.01em;
+}
+.hero-word .l1{color:rgba(237,230,225,0.04);}
+.hero-word .l2{color:rgba(201,135,138,0.09);}
+.hero-word .l3{color:rgba(237,230,225,0.05);}
+
+.hero-media{
+  position:relative; z-index:2;
+  width:min(340px,70vw); aspect-ratio:3/4;
+  border-radius:2px; overflow:hidden;
+  box-shadow:0 60px 120px rgba(0,0,0,0.6), 0 0 0 1px var(--line);
+  opacity:0;
+}
+.hero-media img{width:100%; height:100%; object-fit:cover; object-position:center top;}
+.hero-vignette{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,8,8,0) 55%, rgba(10,8,8,0.78) 100%),
+             linear-gradient(0deg, rgba(10,8,8,0) 80%, rgba(10,8,8,0.35) 100%);
+  pointer-events:none;
+}
+
+.hero-copy{position:relative; z-index:2; text-align:center; margin-top:34px; max-width:560px;}
+.hero-copy .sub{
+  font-family:'Bodoni Moda',serif; font-style:italic; font-weight:400;
+  font-size:clamp(1.1rem,2.2vw,1.6rem); line-height:1.5; margin-top:18px; color:var(--bone);
+}
+.enter-link{
+  display:inline-flex; align-items:center; gap:10px; margin-top:34px;
+  font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--rose-light);
+  border-bottom:1px solid rgba(201,135,138,0.4); padding-bottom:8px;
+  transition:gap .3s ease;
+}
+.enter-link:hover{gap:16px;}
+.enter-link svg{width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:1.5; transform:rotate(90deg);}
+
+/* ===================== MARQUEE ===================== */
+.marquee-band{
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding:22px 0; overflow:hidden; white-space:nowrap; background:var(--ink2);
+}
+.marquee-band.alt{background:var(--ink);}
+.marquee-track{display:inline-flex; animation:scrollLeft 32s linear infinite;}
+.marquee-band:hover .marquee-track{animation-play-state:paused;}
+@keyframes scrollLeft{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+.marquee-track span{
+  font-family:'Bodoni Moda',serif; font-style:italic; font-weight:500;
+  font-size:1.3rem; padding:0 28px; color:var(--bone); opacity:0.85;
+  display:inline-flex; align-items:center; gap:28px;
+}
+.marquee-band.alt .marquee-track span{
+  font-family:'Poppins',sans-serif; font-style:normal; font-weight:400;
+  font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--rose-light); opacity:0.8;
+}
+.marquee-track span em{color:var(--rose); font-style:italic;}
+
+/* ===================== ABOUT ===================== */
+.about{padding:150px 0; background:var(--ink2);}
+.about-grid{display:grid; grid-template-columns:0.85fr 1.15fr; gap:7vw; align-items:center;}
+.about-media{aspect-ratio:3/4; overflow:hidden; border-radius:2px; box-shadow:0 40px 90px rgba(0,0,0,0.55);}
+.about-media img{width:100%; height:100%; object-fit:cover; object-position:center top;}
+.about h2{font-size:clamp(2.1rem,4vw,3.1rem); font-weight:500; margin:16px 0 24px;}
+.about p{font-size:1rem; line-height:1.9; opacity:0.78; max-width:520px; font-weight:300;}
+.meta-row{display:flex; gap:48px; margin-top:42px; flex-wrap:wrap;}
+.meta-row .n{
+  display:block; font-family:'Bodoni Moda',serif; font-size:1.6rem; font-weight:600; color:var(--rose-light);
+}
+.meta-row .l{display:block; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.62; margin-top:4px;}
+
+/* ===================== SERVICES ===================== */
+.services{padding:130px 0; background:var(--ink);}
+.services-head{text-align:center; margin-bottom:72px;}
+.services-head h2{font-size:clamp(2.1rem,4vw,3.1rem); font-weight:500; margin-top:16px;}
+.services-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:2px;}
+.svc-card{
+  background:var(--ink2); padding:52px 36px;
+  border:1px solid var(--line); position:relative; overflow:hidden;
+  transition:border-color .35s ease;
+}
+.svc-card::before{
+  content:""; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+  transform:scaleX(0); transition:transform .4s ease;
+}
+.svc-card:hover::before{transform:scaleX(1);}
+.svc-card:hover{border-color:rgba(201,135,138,0.3);}
+.svc-num{
+  font-family:'Bodoni Moda',serif; font-style:italic; font-size:0.85rem;
+  color:var(--rose); letter-spacing:0.06em; margin-bottom:18px; display:block;
+}
+.svc-card h3{font-size:1.35rem; font-weight:500; margin-bottom:12px;}
+.svc-card p{font-size:0.88rem; line-height:1.8; opacity:0.65; font-weight:300;}
+
+/* ===================== PHILOSOPHY ===================== */
+.philosophy{
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:120px 6vw; position:relative;
+  background:radial-gradient(circle at 50% 30%, var(--wine) 0%, var(--ink) 65%);
+}
+.philo-word{
+  font-size:clamp(3rem,11vw,8rem); font-style:italic; font-weight:600;
+  color:var(--rose-light);
+}
+.philo-sub{
+  max-width:600px; margin-top:30px; font-size:1.05rem; line-height:1.9; opacity:0.82; font-weight:300;
+}
+.philo-quote{
+  margin-top:48px; font-family:'Bodoni Moda',serif; font-style:italic;
+  font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:400; color:var(--rose-light);
+  max-width:700px; line-height:1.4;
+}
+.philo-quote::before{content:"\201C";}
+.philo-quote::after{content:"\201D";}
+
+/* ===================== WORK ===================== */
+.work{padding:130px 0 0;}
+.work-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:50px; flex-wrap:wrap; gap:16px;}
+.work-head h2{font-size:clamp(2.1rem,4vw,3.1rem); font-weight:500; margin-top:14px;}
+.work-pin{height:100vh; overflow:hidden; position:relative; perspective:900px;}
+.work-track{position:absolute; inset:0;}
+.work-slide{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(0.08);
+  opacity:0;
+  width:min(300px,54vw);
+  display:flex; flex-direction:column; align-items:center;
+}
+.work-slide .frame{
+  width:100%; aspect-ratio:3/4; overflow:hidden; border-radius:2px;
+  box-shadow:0 40px 90px rgba(0,0,0,0.55);
+}
+.work-slide .frame img{width:100%; height:100%; object-fit:cover; object-position:center top;}
+.work-slide .num{font-size:0.7rem; letter-spacing:0.12em; color:var(--rose-light); opacity:0.7; margin-top:14px;}
+.work-slide .cap{font-family:'Bodoni Moda',serif; font-style:italic; font-size:1.25rem; margin-top:6px; text-align:center;}
+.work-end-cta{
+  padding:80px 0 60px; text-align:center;
+}
+.work-end-cta h3{font-family:'Bodoni Moda',serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:500; margin-bottom:22px;}
+.work-end-cta a{
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid var(--rose); border-radius:30px; padding:12px 26px;
+  font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase;
+}
+.work-end-cta a:hover{background:var(--rose); color:var(--ink);}
+.work-track.plain{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;}
+.work-track.plain .work-slide{
+  position:static; transform:none; opacity:1;
+  flex:0 0 auto; width:80vw; scroll-snap-align:start;
+  padding:0 16px; align-items:flex-start; justify-content:center; height:100vh;
+}
+.work-track.plain::-webkit-scrollbar{display:none;}
+
+/* ===================== BOOK ===================== */
+.book{padding:160px 0; text-align:center;}
+.book-panel{
+  position:relative; overflow:hidden; border:1px solid var(--line); border-radius:4px;
+  padding:100px 6vw; background:linear-gradient(160deg, var(--ink3), var(--ink2));
+}
+.book h2{font-size:clamp(2.4rem,5.5vw,4.2rem); font-weight:500;}
+.book p{max-width:480px; margin:20px auto 0; opacity:0.78; line-height:1.8;}
+.cta-row{display:flex; gap:18px; justify-content:center; margin-top:38px; flex-wrap:wrap;}
+.btn{
+  padding:16px 34px; border-radius:40px; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:10px; transition:transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+}
+.btn-rose{background:var(--rose); color:var(--ink); font-weight:600;}
+.btn-rose:hover{transform:translateY(-3px); box-shadow:0 18px 36px rgba(201,135,138,0.3);}
+.btn-outline{border:1px solid var(--rose-light);}
+.btn-outline:hover{background:rgba(201,135,138,0.1); transform:translateY(-3px);}
+.book-glow{
+  position:absolute; width:600px; height:600px; border-radius:50%;
+  background:radial-gradient(circle, rgba(74,13,26,0.45) 0%, transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+
+/* ===================== FOOTER ===================== */
+footer{padding:60px 0 36px; border-top:1px solid var(--line);}
+.foot-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; padding-bottom:30px;}
+.foot-links{display:flex; gap:46px; flex-wrap:wrap;}
+.foot-links h4{font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--rose-light); margin-bottom:14px; font-weight:500;}
+.foot-links li{font-size:0.85rem; opacity:0.72; margin-bottom:9px;}
+.foot-links li a:hover{opacity:1; color:var(--rose-light);}
+.foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-size:0.74rem; opacity:0.5; padding-top:24px; border-top:1px solid var(--line);}
+.sm-ig{display:flex; align-items:center; gap:8px;}
+.sm-ig svg{width:16px; height:16px; stroke:var(--rose-light); fill:none; stroke-width:1.4;}
+
+/* ===================== REVEAL ===================== */
+.reveal{opacity:0; transform:translateY(28px); transition:opacity .9s ease, transform .9s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width:980px){
+  .about-grid{grid-template-columns:1fr; gap:44px;}
+  .about-media{max-width:380px; margin:0 auto;}
+}
+@media (max-width:720px){
+  nav.main-nav{
+    position:fixed; inset:0; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    transform:translateY(-110%); transition:transform .4s ease; z-index:310;
+  }
+  nav.main-nav.open{transform:translateY(0);}
+  nav.main-nav ul{flex-direction:column; text-align:center; gap:30px;}
+  nav.main-nav a{font-size:1.15rem;}
+  .nav-ig{display:none;}
+  .burger{display:block;}
+  .foot-grid{flex-direction:column;}
+  .work-slide{width:80vw;}
+  .services-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <a href="#home" class="logo">LAVNIKA<span>MAKEUP ARTIST</span></a>
+  <nav class="main-nav" id="mainNav">
+    <ul>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#work" class="nav-link">Portfolio</a></li>
+      <li><a href="#philosophy" class="nav-link">Philosophy</a></li>
+      <li><a href="#book" class="nav-link">Book</a></li>
+    </ul>
+  </nav>
+  <a class="nav-ig" href="https://www.instagram.com/charmfacebylavnika/" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+    @charmfacebylavnika
+  </a>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-word">
+    <span class="layer l1" id="layer1">CHARM</span>
+    <span class="layer l2" id="layer2">CHARM</span>
+    <span class="layer l3" id="layer3">CHARM</span>
+  </div>
+  <div class="hero-media">
+    <video id="heroVideo" src="images/ScreenRecording_06-30-2026 13-51-08_1.mov" autoplay muted loop playsinline poster="images/IMG_8820.jpg"></video>
+    <div class="hero-vignette"></div>
+  </div>
+  <div class="hero-copy">
+    <p class="eyebrow">Charm Face by Lavnika</p>
+    <p class="sub">Where every face becomes<br>a work of art.</p>
+    <a href="#work" class="enter-link">
+      View Portfolio
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============ MARQUEE 1 ============ -->
+<div class="marquee-band">
+  <div class="marquee-track">
+    <span>Bridal Makeup <em>✦</em></span>
+    <span>Party Glam <em>✦</em></span>
+    <span>Festive Looks <em>✦</em></span>
+    <span>Pre-Bridal <em>✦</em></span>
+    <span>Editorial <em>✦</em></span>
+    <span>Airbrush <em>✦</em></span>
+    <span>Bridal Makeup <em>✦</em></span>
+    <span>Party Glam <em>✦</em></span>
+    <span>Festive Looks <em>✦</em></span>
+    <span>Pre-Bridal <em>✦</em></span>
+    <span>Editorial <em>✦</em></span>
+    <span>Airbrush <em>✦</em></span>
+  </div>
+</div>
+
+<!-- ============ MARQUEE 2 ============ -->
+<div class="marquee-band alt">
+  <div class="marquee-track" style="animation-direction:reverse; animation-duration:24s;">
+    <span>Crafted with love</span>
+    <span>✦</span>
+    <span>Timeless beauty</span>
+    <span>✦</span>
+    <span>Your dream look</span>
+    <span>✦</span>
+    <span>Flawless finish</span>
+    <span>✦</span>
+    <span>Crafted with love</span>
+    <span>✦</span>
+    <span>Timeless beauty</span>
+    <span>✦</span>
+    <span>Your dream look</span>
+    <span>✦</span>
+    <span>Flawless finish</span>
+    <span>✦</span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-media reveal">
+        <img src="images/IMG_8822.jpg" alt="Lavnika Kashyap">
+      </div>
+      <div>
+        <p class="eyebrow reveal">The Artist</p>
+        <h2 class="reveal">Lavnika Kashyap</h2>
+        <p class="reveal" style="margin-bottom:16px;">
+          A passionate makeup artist dedicated to crafting looks that speak — from ethereal bridal transformations to bold festive glam. Every brushstroke is intentional, every look is personal.
+        </p>
+        <p class="reveal">
+          With an eye for detail and a deep love for the art of beauty, Lavnika works closely with each client to bring their vision to life — ensuring every woman feels radiant, confident, and entirely herself on her most cherished moments.
+        </p>
+        <div class="meta-row">
+          <div class="reveal">
+            <span class="n">5+</span>
+            <span class="l">Years of artistry</span>
+          </div>
+          <div class="reveal">
+            <span class="n">500+</span>
+            <span class="l">Happy clients</span>
+          </div>
+          <div class="reveal">
+            <span class="n">200+</span>
+            <span class="l">Bridal looks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="services-head">
+      <p class="eyebrow reveal">What I offer</p>
+      <h2 class="reveal">Services</h2>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card reveal">
+        <span class="svc-num">01</span>
+        <h3>Bridal Makeup</h3>
+        <p>Your most special day deserves the most perfect look. Tailored bridal makeups — traditional, contemporary, or fusion — that last from the pheras to the after-party.</p>
+      </div>
+      <div class="svc-card reveal">
+        <span class="svc-num">02</span>
+        <h3>Party &amp; Festive Glam</h3>
+        <p>Bold, radiant, unforgettable. From Diwali parties to sangeet nights — makeup that makes you the most stunning person in the room.</p>
+      </div>
+      <div class="svc-card reveal">
+        <span class="svc-num">03</span>
+        <h3>Pre-Bridal Trials</h3>
+        <p>A dedicated session to perfect your bridal look before the big day — experimenting with styles, palettes, and finishes until every detail feels right.</p>
+      </div>
+      <div class="svc-card reveal">
+        <span class="svc-num">04</span>
+        <h3>Airbrush Makeup</h3>
+        <p>Ultra-fine, lightweight coverage that photographs flawlessly and lasts all day. The gold standard for brides and high-definition occasions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHILOSOPHY ============ -->
+<section class="philosophy" id="philosophy">
+  <p class="eyebrow reveal" style="margin-bottom:24px;">My belief</p>
+  <div class="philo-word reveal">Beauty</div>
+  <p class="philo-sub reveal">
+    Makeup is not a mask — it's a revelation. The right look doesn't change who you are; it amplifies the most luminous version of yourself.
+  </p>
+  <p class="philo-quote reveal">
+    Beauty isn't worn — it's awakened.
+  </p>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="work" id="work">
+  <div class="wrap work-head">
+    <div>
+      <p class="eyebrow reveal">Selected work</p>
+      <h2 class="reveal">Portfolio</h2>
+    </div>
+    <a href="https://www.instagram.com/charmfacebylavnika/" class="enter-link reveal" target="_blank" rel="noopener">
+      See all on Instagram
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </div>
+
+  <div class="work-pin">
+    <div class="work-track" id="workTrack">
+
+      <!-- Landing card (zooms in from behind) -->
+      <div class="work-slide landing">
+        <div class="frame">
+          <img src="images/IMG_8820.jpg" alt="Timeless Bridal">
+        </div>
+        <span class="num">01 / 03</span>
+        <span class="cap">Timeless Bridal</span>
+      </div>
+
+      <!-- 4 outward cards -->
+      <div class="work-slide">
+        <div class="frame">
+          <img src="images/IMG_8821.jpg" alt="Golden Glam">
+        </div>
+        <span class="num">02 / 03</span>
+        <span class="cap">Golden Glam</span>
+      </div>
+
+      <div class="work-slide">
+        <div class="frame">
+          <img src="images/IMG_8822.jpg" alt="Noir Elegance">
+        </div>
+        <span class="num">03 / 03</span>
+        <span class="cap">Noir Elegance</span>
+      </div>
+
+      <div class="work-slide">
+        <div class="frame">
+          <img src="images/IMG_8820.jpg" alt="Bridal Serenity">
+        </div>
+        <span class="num">✦</span>
+        <span class="cap">Bridal Serenity</span>
+      </div>
+
+    </div>
+  </div>
+  <!-- scroll spacer for GSAP pin -->
+  <div id="workSpacer"></div>
+
+  <div class="work-end-cta wrap reveal">
+    <h3>Want to see more?</h3>
+    <a href="https://www.instagram.com/charmfacebylavnika/" target="_blank" rel="noopener">
+      <svg width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+      Follow on Instagram
+    </a>
+  </div>
+</section>
+
+<!-- ============ BOOK ============ -->
+<section class="book" id="book">
+  <div class="wrap">
+    <div class="book-panel">
+      <div class="book-glow"></div>
+      <p class="eyebrow reveal" style="justify-content:center;">Let's create magic</p>
+      <h2 class="reveal" style="margin-top:16px;">Book Your Look</h2>
+      <p class="reveal">
+        Ready for a transformation? Whether it's your wedding day, a milestone celebration, or just because you deserve to feel extraordinary — let's talk.
+      </p>
+      <div class="cta-row reveal">
+        <a href="https://wa.me/91XXXXXXXXXX" class="btn btn-rose" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Me
+        </a>
+        <a href="https://www.instagram.com/charmfacebylavnika/" class="btn btn-outline" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          DM on Instagram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="font-size:1.2rem; margin-bottom:10px;">LAVNIKA<span style="display:block;font-family:'Poppins',sans-serif;font-weight:500;font-size:0.5rem;letter-spacing:0.32em;color:var(--rose-light);margin-top:3px;">MAKEUP ARTIST</span></div>
+        <p style="font-size:0.82rem; opacity:0.55; max-width:200px; line-height:1.7; margin-top:10px;">Crafting beauty that tells your story.</p>
+        <a class="sm-ig" href="https://www.instagram.com/charmfacebylavnika/" target="_blank" rel="noopener" style="margin-top:18px; display:inline-flex;">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          @charmfacebylavnika
+        </a>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Portfolio</a></li>
+            <li><a href="#philosophy">Philosophy</a></li>
+            <li><a href="#book">Book</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li>Bridal Makeup</li>
+            <li>Party Glam</li>
+            <li>Pre-Bridal</li>
+            <li>Airbrush</li>
+            <li>Festive Looks</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/charmfacebylavnika/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr"></span> Charm Face by Lavnika. All rights reserved.</span>
+      <span>Made with love ♥</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// header scroll state
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', ()=> header.classList.toggle('scrolled', window.scrollY>40));
+
+// mobile nav
+const burger = document.getElementById('burger');
+const mainNav = document.getElementById('mainNav');
+burger.addEventListener('click', ()=> mainNav.classList.toggle('open'));
+document.querySelectorAll('.nav-link').forEach(l=> l.addEventListener('click', ()=> mainNav.classList.remove('open')));
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// simple reveal
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+}, {threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+
+// GSAP enhancements
+if(window.gsap && window.ScrollTrigger){
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initGSAP(){
+    if(!reduceMotion){
+      // hero parallax layers
+      gsap.to('#layer1', {yPercent:-30, xPercent:-6, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:()=>`+=${window.innerHeight*1.8}`, scrub:true, invalidateOnRefresh:true}});
+      gsap.to('#layer2', {yPercent:40,  xPercent:8,  ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:()=>`+=${window.innerHeight*1.8}`, scrub:true, invalidateOnRefresh:true}});
+      gsap.to('#layer3', {yPercent:-60, xPercent:14, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:()=>`+=${window.innerHeight*1.8}`, scrub:true, invalidateOnRefresh:true}});
+
+      ScrollTrigger.create({
+        id: 'heropin',
+        trigger: '.hero',
+        start: 'top top',
+        end: ()=>`+=${window.innerHeight}`,
+        pin: true,
+        scrub: true,
+        invalidateOnRefresh: true,
+      });
+
+      gsap.fromTo('.hero-media',
+        { opacity: 0, y: 70, scale: 0.88 },
+        {
+          opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power2.out',
+          scrollTrigger: {
+            trigger: '.hero',
+            start: 'top+=30px top',
+            toggleActions: 'play none none none',
+            invalidateOnRefresh: true,
+          }
+        }
+      );
+      gsap.from('.hero-copy', {opacity:0, y:20, duration:1, ease:'power2.out', delay:.5});
+    } else {
+      gsap.set('.hero-media', {opacity:1});
+    }
+
+    // work gallery pin
+    function setupWorkPin(){
+      const track  = document.getElementById('workTrack');
+      const spacer = document.getElementById('workSpacer');
+
+      ScrollTrigger.getAll().forEach(st => { if(st.vars.id && st.vars.id.startsWith('work')) st.kill(); });
+      gsap.set('.work-slide', {clearProps:'all'});
+      track.classList.remove('plain');
+
+      if(window.innerWidth >= 860 && !reduceMotion){
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const cards       = gsap.utils.toArray('#workTrack .work-slide:not(.landing)');
+        const landingCard = document.querySelector('#workTrack .work-slide.landing');
+        const pinDist     = Math.round(7.0 * vh);
+
+        spacer.style.height = pinDist + 'px';
+
+        ScrollTrigger.create({
+          id: 'workpin',
+          trigger: '.work-pin',
+          start: 'top top',
+          end: ()=>`+=${pinDist}`,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+
+        const dirs = [
+          { x: -vw * 0.60, y: -vh * 0.40 },
+          { x:  vw * 0.60, y: -vh * 0.40 },
+          { x: -vw * 0.60, y:  vh * 0.40 },
+          { x:  vw * 0.60, y:  vh * 0.40 },
+        ];
+
+        cards.forEach((card) => {
+          gsap.set(card, { transformOrigin:'center center', x:0, y:0, scale:0.07, opacity:0 });
+        });
+
+        if(landingCard){
+          gsap.set(landingCard, { transformOrigin:'center center', x:0, y:0, scale:1.9, opacity:0 });
+        }
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            id: 'workpin-tl',
+            trigger: '.work-pin',
+            start: 'top top',
+            end: ()=>`+=${pinDist}`,
+            scrub: 1.2,
+            invalidateOnRefresh: true,
+          }
+        });
+
+        cards.forEach((card, i) => {
+          const d = dirs[i % dirs.length];
+          tl.to(card, {
+            keyframes: [
+              { scale:0.22, opacity:1,   x:d.x*0.28, y:d.y*0.28, ease:'power1.in' },
+              { scale:0.42, opacity:1,   x:d.x*0.62, y:d.y*0.62, ease:'power1.in' },
+              { scale:0.72, opacity:0,   x:d.x,      y:d.y,      ease:'power2.in' },
+            ],
+          }, i * 0.03);
+        });
+
+        if(landingCard){
+          tl.to(landingCard, {
+            keyframes: [
+              { scale:1.1, opacity:0.4, ease:'power2.out' },
+              { scale:0.5, opacity:1,   ease:'power2.out' },
+              { scale:0.4, opacity:1,   ease:'power1.out' },
+            ],
+          }, 0);
+        }
+      } else {
+        spacer.style.height = '0px';
+        track.classList.add('plain');
+      }
+    }
+
+    setupWorkPin();
+    window.addEventListener('resize', ()=>{ ScrollTrigger.refresh(); });
+  }
+
+  if(document.readyState === 'complete'){
+    initGSAP();
+  } else {
+    window.addEventListener('load', initGSAP);
+  }
+} else {
+  document.querySelector('.hero-media').style.opacity = '1';
+  document.getElementById('workTrack').classList.add('plain');
+}
+</script>
+</body>
+</html>
